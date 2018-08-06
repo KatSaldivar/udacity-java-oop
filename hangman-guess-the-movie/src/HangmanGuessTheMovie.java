@@ -3,12 +3,12 @@ import java.util.*;
 import java.io.*;
 
 public class HangmanGuessTheMovie {
-    public static void main (String [] args) throws Exception {
+    public static void main (String [] args) {
         boolean hasWon = false;
         System.out.println("I have randomly chosen a movie title.  Try to guess without reaching 10 incorrect guesses.");
         String movieTitle = null;
         StringBuilder correctGuessTitleOutput =new StringBuilder();
-        StringBuilder [] incorrectGuesses = new StringBuilder[10];
+        ArrayList <String> incorrectGuesses = new ArrayList <>(0);
         Scanner scanner = new Scanner(System.in);
 
         try{
@@ -17,17 +17,7 @@ public class HangmanGuessTheMovie {
             System.out.println("Oops! Looks like the movie file is missing.");
         }
 
-        //SETS INITIAL TITLE OUTPUT TO BE BLANK
-        for (int i=0; i < movieTitle.length(); i++ ){
-            if (movieTitle.charAt(i)!= ' '){
-                correctGuessTitleOutput.insert(i, '_').append(" ");
-            }else {
-                correctGuessTitleOutput.insert(i, ' ');
-            }
-        }
-        //TODO add space between the _ to see how many char to guess
-        //StringBuilder newcorrectGuessTitleOutput = correctGuessTitleOutput.replaceAll(".(?=.)", "$0 ");//correctGuessTitleOutput.replace("", " ").trim()//correctGuessTitleOutput.replaceAll(".(?=.)", "$0 ");
-        //correctGuessTitleOutput.replace(i,i,"_ ");//correctGuessTitleOutput.insert(i, '_');
+        correctGuessTitleOutput = initialOutput(movieTitle, correctGuessTitleOutput);
 
         System.out.println(movieTitle + correctGuessTitleOutput);
         for (int i = 10; i > 0; i--) {
@@ -35,6 +25,8 @@ public class HangmanGuessTheMovie {
             System.out.println("You have " + i + " guesses left. What is your next guess? ");
             String currentLetterGuess = scanner.nextLine();
             System.out.println("Your guess was: " + currentLetterGuess);
+            checker(currentLetterGuess, incorrectGuesses, movieTitle);
+            System.out.println(correctGuessTitleOutput);
         }
         if (hasWon) {
             System.out.println("Correct! The movie title was: " + movieTitle + " You win!");
@@ -42,30 +34,10 @@ public class HangmanGuessTheMovie {
             System.out.println("Game over! You lose.  The movie title was " + movieTitle + ".");
         }
 
-        /*for (int i = 10; i > 0; i--) {
-            System.out.println("You are guessing:" + );
-            int guess;
-            System.out.println("Your guess was " + guess + ". Choose again.");
-
-            if (movieTitle < guess){
-                System.out.println("It's smaller than " + guess + ". Choose again.");
-            }
-            else if (movieTitle > guess) {
-                System.out.println("It's greater than " + guess + ". Choose again.");
-            }
-            else {
-                hasWon = true;
-                break;
-            }
-        }
-
-        if (hasWon) {
-            System.out.println("Correct! You win!");
-        }else{
-            System.out.println("Game over! You lose.  The movie title was " + movieTitle + ".");
-        }*/
-
     }
+
+
+
 
 
     public static String selectMovieTitle() throws Exception {
@@ -92,6 +64,30 @@ public class HangmanGuessTheMovie {
 
     }
 
+    //SETS INITIAL TITLE OUTPUT TO BE BLANK
+    public static StringBuilder initialOutput(String movieTitle, StringBuilder correctGuessTitleOutput){
+        for (int i=0; i < movieTitle.length(); i++ ){
+            if (movieTitle.charAt(i)!= ' '){
+                correctGuessTitleOutput.insert(i, '_');
+            }else {
+                correctGuessTitleOutput.insert(i, ' ');
+            }
+        }
+        return correctGuessTitleOutput;
+        //TODO add space between the _ to see how many char to guess
+        //StringBuilder newcorrectGuessTitleOutput = correctGuessTitleOutput.replaceAll(".(?=.)", "$0 ");//correctGuessTitleOutput.replace("", " ").trim()//correctGuessTitleOutput.replaceAll(".(?=.)", "$0 ");
+        //correctGuessTitleOutput.replace(i,i,"_ ");//correctGuessTitleOutput.insert(i, '_');
+    }
 
+
+    private static void checker(String currentLetterGuess, ArrayList <String> incorrectGuess, String movieTitle) {
+        if(movieTitle.contains(currentLetterGuess)){
+            incorrectGuess.add("*"); //todo add more logic here
+        }else {
+            incorrectGuess.add(currentLetterGuess);
+        }
+
+
+    }
 
 }

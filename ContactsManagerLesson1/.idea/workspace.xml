@@ -75,7 +75,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="x" value="40" />
     <option name="y" value="51" />
     <option name="width" value="1367" />
@@ -187,7 +187,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="40" y="51" width="1367" height="714" extended-state="1" />
+    <frame x="40" y="51" width="1367" height="714" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
