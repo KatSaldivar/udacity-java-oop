@@ -13,7 +13,7 @@ public class HangmanGuessTheMovie {
         try{
              movieTitle = selectMovieTitle();
              correctGuessTitleOutput = initialOutput(movieTitle, correctGuessTitleOutput);
-             System.out.println(movieTitle + correctGuessTitleOutput);
+             System.out.println(correctGuessTitleOutput);
         }catch (Exception exception){
             System.out.println("Oops! Looks like the movie file is missing. Please try again.");
             System.exit(0);
@@ -22,24 +22,13 @@ public class HangmanGuessTheMovie {
         while (hasWon==false) {
             System.out.println("You have guessed these wrong letters: " + incorrectGuesses);
             System.out.println("You have " + (10 - incorrectGuesses.size()) + " guesses left. What is your next guess? ");
-            String currentLetterGuess = inacceptableGuessHandler(scanner.nextLine());
+            String currentLetterGuess = inacceptableGuessHandler(scanner.nextLine(), incorrectGuesses);
             System.out.println("Your guess was: " + currentLetterGuess);
             letterChecker(currentLetterGuess, incorrectGuesses, movieTitle, correctGuessTitleOutput);
             hasWon = winChecker(movieTitle, correctGuessTitleOutput, incorrectGuesses, hasWon);
             System.out.println(correctGuessTitleOutput);
         }
     }
-
-    private static String inacceptableGuessHandler(String guess) {
-        Scanner scanner = new Scanner(System.in);
-        while((guess.length() != 1) || Character.isUpperCase(guess.toCharArray()[0])){
-            System.out.println("Please enter a guess of a single lowercase character.");
-            guess = scanner.nextLine();
-        }
-        return guess;
-    }//todo add logic for gussing a letter you already guessed
-
-
 
     public static String selectMovieTitle() throws Exception {
         String randomMovie;
@@ -106,5 +95,20 @@ public class HangmanGuessTheMovie {
         return hasWon;
     }
 
-
+    private static String inacceptableGuessHandler(String guess, ArrayList incorrectGuesses) {
+        Scanner scanner = new Scanner(System.in);
+        while((guess.length() != 1) || (Character.isUpperCase(guess.toCharArray()[0]) || incorrectGuesses.contains(guess))){
+            if(guess.length() == 0){
+                System.out.println("Please enter a guess.");
+            }else if(guess.length() > 1){
+                System.out.println("Please enter a single guess.");
+            }else if(Character.isUpperCase(guess.toCharArray()[0])){
+                System.out.println("Please enter a lowercase guess.");
+            }else if(incorrectGuesses.contains(guess)){
+                System.out.println("Please enter a guess you have not already guessed.");
+            }
+            guess = scanner.nextLine();
+        }
+        return guess;
+    }
 }
